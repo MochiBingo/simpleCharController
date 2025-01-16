@@ -14,24 +14,26 @@ public class InputManager : MonoBehaviour, GameInput.IPlayerActions
         gameInput.Player.Enable();
         gameInput.Player.SetCallbacks(this);
     }
-    void Start()
-    {
-        
-    }
-    void Update()
-    {
-        
-    }
     public void OnMove(InputAction.CallbackContext context)
     {
-     
-            Debug.Log($"Recieving Move Input {context.ReadValue<Vector2>()}");
-            Actions.moveEvent?.Invoke(context.ReadValue<Vector2>());
-        
-        
+            //Debug.Log($"Recieving Move Input {context.ReadValue<Vector2>()}");
+            Actions.moveEvent?.Invoke(context.ReadValue<Vector2>());     
+    }
+    public void OnInteract(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            Actions.interactEvent?.Invoke();
+        }
+        if (context.canceled)
+        {
+            Actions.interactEventCanceled?.Invoke();
+        }
     }
 }
 public static class Actions
 {
     public static Action<Vector2> moveEvent;
+    public static Action interactEvent;
+    public static Action interactEventCanceled;
 }
