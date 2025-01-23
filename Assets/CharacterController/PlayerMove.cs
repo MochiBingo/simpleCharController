@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-    public CharacterController characterController; 
+    public Rigidbody2D PlayerRigidBody; 
     public float moveSpeed = 5.0f;
     private Vector2 moveVector = Vector2.zero;
     public GameObject interact1;
@@ -20,17 +20,17 @@ public class PlayerMove : MonoBehaviour
         Actions.interactEvent += interactTwo;
         Actions.interactEvent += interactThreeStart;
         Actions.interactEventCanceled += interactThreeCancel;
-        characterController = this.GetComponent<CharacterController>();
+        PlayerRigidBody = this.GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         moveChar(moveVector);
     }
     void moveChar(Vector2 moveVector)
     {
-        characterController.Move(moveVector * moveSpeed * Time.deltaTime );
+        PlayerRigidBody.MovePosition(PlayerRigidBody.position + moveVector * moveSpeed * Time.fixedDeltaTime );
     }
     void updateMoveVector(Vector2 inputVector)
     {
